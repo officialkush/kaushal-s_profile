@@ -1,0 +1,35 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}{% if instance %}Edit Experience{% else %}Add Experience{% endif %}{% endblock %}
+{% block content %}
+<div class="dash-topbar">
+  <div>
+    <h1 class="dash-title">{% if instance %}Edit Experience{% else %}Add Experience{% endif %}</h1>
+    <p class="dash-subtitle">{% if instance %}Updating "{{ instance.role }}"{% else %}Add a new work experience.{% endif %}</p>
+  </div>
+  <a href="{% url 'dashboard:experience_list' %}" class="btn btn-ghost" style="font-size:0.78rem;">← Back</a>
+</div>
+<div class="dash-card">
+  <form method="post" class="dash-form" style="max-width:100%;">
+    {% csrf_token %}
+    <div class="dash-form-row">
+      <div class="dash-field"><label>Role / Job Title</label>{{ form.role }}</div>
+      <div class="dash-field"><label>Company</label>{{ form.company }}</div>
+    </div>
+    <div class="dash-field"><label>Description</label>{{ form.description }}</div>
+    <div class="dash-form-row">
+      <div class="dash-field"><label>Start Date</label>{{ form.start_date }}</div>
+      <div class="dash-field"><label>End Date (leave blank if current)</label>{{ form.end_date }}</div>
+    </div>
+    <div class="dash-form-row">
+      <div class="dash-field">
+        <div class="dash-checkbox-wrap">{{ form.current }}<label for="{{ form.current.id_for_label }}" style="font-size:0.83rem;color:var(--text);text-transform:none;letter-spacing:0;">Currently working here</label></div>
+      </div>
+      <div class="dash-field"><label>Location</label>{{ form.location }}</div>
+    </div>
+    <div class="dash-form-actions">
+      <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+      <a href="{% url 'dashboard:experience_list' %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

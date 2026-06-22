@@ -1,0 +1,22 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}{% if instance %}Edit Certification{% else %}Add Certification{% endif %}{% endblock %}
+{% block content %}
+<div class="dash-topbar">
+  <div><h1 class="dash-title">{% if instance %}Edit Certification{% else %}Add Certification{% endif %}</h1></div>
+  <a href="{% url 'dashboard:certification_list' %}" class="btn btn-ghost" style="font-size:0.78rem;">← Back</a>
+</div>
+<div class="dash-card">
+  <form method="post" class="dash-form" style="max-width:100%;">
+    {% csrf_token %}
+    <div class="dash-field"><label>Certification Name</label>{{ form.name }}</div>
+    <div class="dash-form-row">
+      <div class="dash-field"><label>Issuer (e.g. Udemy, Simplilearn)</label>{{ form.issuer }}</div>
+      <div class="dash-field"><label>Year (optional)</label>{{ form.year }}</div>
+    </div>
+    <div class="dash-form-actions">
+      <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+      <a href="{% url 'dashboard:certification_list' %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

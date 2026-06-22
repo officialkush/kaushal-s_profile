@@ -1,0 +1,87 @@
+{% extends 'core/base.html' %}
+{% block title %}About — {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}
+{% block content %}
+
+<section class="section page-hero" id="top">
+  <div class="container">
+    <span class="page-eyebrow">01 / About</span>
+    <h1 class="page-title">Get to know me</h1>
+  </div>
+</section>
+
+<section class="section about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-img-wrap">
+          <div class="about-img-placeholder">
+            <div class="img-glitch"><i class="fas fa-user-astronaut"></i></div>
+            <div class="img-frame"></div>
+            <div class="img-corner tl"></div>
+            <div class="img-corner tr"></div>
+            <div class="img-corner bl"></div>
+            <div class="img-corner br"></div>
+          </div>
+        </div>
+        <div class="about-social">
+          <a href="{% if profile %}{{ profile.github }}{% else %}https://github.com/officialkush{% endif %}" class="social-link" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="{% if profile %}{{ profile.linkedin }}{% else %}#{% endif %}" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      <div class="about-text">
+        <h3 class="about-subtitle">{% if profile %}{{ profile.title }}{% else %}GenAI / Python Developer{% endif %}</h3>
+        <p class="about-bio">{% if profile %}{{ profile.bio }}{% else %}GenAI / Python Developer with hands-on experience in Machine Learning, AI-powered applications, backend development, and cloud deployment.{% endif %}</p>
+        <div class="about-info">
+          <div class="info-item"><span class="info-label">Location</span><span class="info-value">{% if profile %}{{ profile.location }}{% else %}Patna, India{% endif %}</span></div>
+          <div class="info-item"><span class="info-label">Email</span><span class="info-value">{% if profile %}{{ profile.email }}{% else %}kaushalraj11a@gmail.com{% endif %}</span></div>
+          <div class="info-item"><span class="info-label">Phone</span><span class="info-value">{% if profile %}{{ profile.phone }}{% else %}+91-6206476736{% endif %}</span></div>
+          <div class="info-item"><span class="info-label">Status</span><span class="info-value available">Available for Projects</span></div>
+        </div>
+        <a href="{% if profile and profile.resume %}{{ profile.resume.url }}{% else %}#{% endif %}" class="btn btn-primary" download>
+          <i class="fas fa-download"></i> Download CV
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section education" style="background:var(--bg-2);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Education</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-college">
+        {% for edu in education %}
+        <div class="edu-card">
+          <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
+          <div>
+            <h3 class="edu-degree">{{ edu.degree }}</h3>
+            <span class="edu-institution">{{ edu.institution }}</span>
+            <span class="edu-years">{{ edu.start_year }} — {{ edu.end_year }}</span>
+            {% if edu.detail %}<span class="edu-detail"><i class="fas fa-award"></i> {{ edu.detail }}</span>{% endif %}
+          </div>
+        </div>
+        {% empty %}
+        <p class="teaser-text">Education details coming soon.</p>
+        {% endfor %}
+      </div>
+      <div class="cert-list">
+        <h3 class="cert-heading">Certifications</h3>
+        {% for cert in certifications %}
+        <div class="cert-item">
+          <i class="fas fa-certificate"></i>
+          <div>
+            <span class="cert-name">{{ cert.name }}</span>
+            {% if cert.issuer %}<span class="cert-issuer">{{ cert.issuer }}{% if cert.year %} · {{ cert.year }}{% endif %}</span>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

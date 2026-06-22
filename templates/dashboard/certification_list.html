@@ -1,0 +1,30 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Certifications{% endblock %}
+{% block content %}
+<div class="dash-topbar">
+  <div><h1 class="dash-title">Certifications</h1><p class="dash-subtitle">Your credentials and courses.</p></div>
+  <a href="{% url 'dashboard:certification_add' %}" class="btn btn-primary" style="font-size:0.78rem;"><i class="fas fa-plus"></i> Add Certification</a>
+</div>
+<div class="dash-card">
+  {% if certifications %}
+  <table class="dash-table">
+    <thead><tr><th>Name</th><th>Issuer</th><th>Year</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for cert in certifications %}
+      <tr>
+        <td><strong>{{ cert.name }}</strong></td>
+        <td class="row-muted">{{ cert.issuer|default:"—" }}</td>
+        <td class="row-muted">{{ cert.year|default:"—" }}</td>
+        <td><div class="dash-row-actions">
+          <a href="{% url 'dashboard:certification_edit' cert.pk %}" class="dash-icon-btn"><i class="fas fa-pen"></i></a>
+          <a href="{% url 'dashboard:certification_delete' cert.pk %}" class="dash-icon-btn danger"><i class="fas fa-trash"></i></a>
+        </div></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="dash-empty"><i class="fas fa-certificate"></i>No certifications yet. <a href="{% url 'dashboard:certification_add' %}" style="color:var(--accent-2);">Add one →</a></div>
+  {% endif %}
+</div>
+{% endblock %}

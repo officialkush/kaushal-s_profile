@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% block title %}Contact — {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}
+{% block content %}
+
+<section class="section page-hero" id="top">
+  <div class="container">
+    <span class="page-eyebrow">05 / Contact</span>
+    <h1 class="page-title">Get in Touch</h1>
+  </div>
+</section>
+
+<section class="section contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3 class="contact-heading">Let's build something <span class="accent">remarkable</span> together.</h3>
+        <p class="contact-desc">Whether you have a project in mind, a role you think I'd be great for, or just want to talk AI/ML — my inbox is always open.</p>
+        <div class="contact-details">
+          <a href="mailto:{% if profile %}{{ profile.email }}{% else %}kaushalraj11a@gmail.com{% endif %}" class="contact-item">
+            <i class="fas fa-envelope"></i><span>{% if profile %}{{ profile.email }}{% else %}kaushalraj11a@gmail.com{% endif %}</span>
+          </a>
+          <div class="contact-item"><i class="fas fa-phone"></i><span>{% if profile %}{{ profile.phone }}{% else %}+91-6206476736{% endif %}</span></div>
+          <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>{% if profile %}{{ profile.location }}{% else %}Patna, India{% endif %}</span></div>
+        </div>
+        <div class="contact-social">
+          <a href="{% if profile %}{{ profile.github }}{% else %}https://github.com/officialkush{% endif %}" class="social-btn" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+          <a href="{% if profile %}{{ profile.linkedin }}{% else %}#{% endif %}" class="social-btn" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        </div>
+      </div>
+      <div class="contact-form-wrap">
+        {% if messages %}
+          {% for message in messages %}<div class="alert alert-success">{{ message }}</div>{% endfor %}
+        {% endif %}
+        <form class="contact-form" id="contactForm" method="POST">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" placeholder="Your name" required></div>
+            <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="your@email.com" required></div>
+          </div>
+          <div class="form-group"><label for="subject">Subject</label><input type="text" id="subject" name="subject" placeholder="What's this about?" required></div>
+          <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" rows="5" placeholder="Tell me about your project or opportunity..." required></textarea></div>
+          <button type="submit" class="btn btn-primary btn-full" id="submitBtn"><span>Send Message</span> <i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% for field in form %}
+<div class="dash-field">
+  {% if field.field.widget.input_type == 'checkbox' %}
+    <div class="dash-checkbox-wrap">
+      {{ field }} <label for="{{ field.id_for_label }}" style="font-size:0.83rem;color:var(--text);text-transform:none;letter-spacing:0;">{{ field.label }}</label>
+    </div>
+  {% else %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+  {% endif %}
+  {% if field.help_text %}<span class="help">{{ field.help_text }}</span>{% endif %}
+  {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+</div>
+{% endfor %}

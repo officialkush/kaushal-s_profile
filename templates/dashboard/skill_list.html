@@ -1,0 +1,48 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Skills{% endblock %}
+{% block content %}
+<div class="dash-topbar">
+  <div>
+    <h1 class="dash-title">Skills</h1>
+    <p class="dash-subtitle">{{ skills|length }} skill{{ skills|length|pluralize }} across all categories.</p>
+  </div>
+  <a href="{% url 'dashboard:skill_add' %}" class="btn btn-primary" style="font-size:0.78rem;">
+    <i class="fas fa-plus"></i> Add Skill
+  </a>
+</div>
+
+<div class="dash-card">
+  {% if skills %}
+  <table class="dash-table">
+    <thead>
+      <tr><th>Name</th><th>Category</th><th>Level</th><th>Order</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for skill in skills %}
+      <tr>
+        <td><strong>{% if skill.icon %}<i class="{{ skill.icon }}" style="color:var(--accent);margin-right:8px;"></i>{% endif %}{{ skill.name }}</strong></td>
+        <td><span class="dash-pill purple">{{ skill.get_category_display }}</span></td>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;max-width:120px;">
+              <div style="height:100%;width:{{ skill.level }}%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:2px;"></div>
+            </div>
+            <span style="font-size:0.78rem;color:var(--accent);">{{ skill.level }}%</span>
+          </div>
+        </td>
+        <td class="row-muted">{{ skill.order }}</td>
+        <td>
+          <div class="dash-row-actions">
+            <a href="{% url 'dashboard:skill_edit' skill.pk %}" class="dash-icon-btn" title="Edit"><i class="fas fa-pen"></i></a>
+            <a href="{% url 'dashboard:skill_delete' skill.pk %}" class="dash-icon-btn danger" title="Delete"><i class="fas fa-trash"></i></a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="dash-empty"><i class="fas fa-sliders"></i>No skills yet. <a href="{% url 'dashboard:skill_add' %}" style="color:var(--accent-2);">Add one →</a></div>
+  {% endif %}
+</div>
+{% endblock %}

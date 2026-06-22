@@ -1,0 +1,37 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}{% if instance %}Edit Skill{% else %}Add Skill{% endif %}{% endblock %}
+{% block content %}
+<div class="dash-topbar">
+  <div>
+    <h1 class="dash-title">{% if instance %}Edit Skill{% else %}Add Skill{% endif %}</h1>
+    <p class="dash-subtitle">{% if instance %}Updating "{{ instance.name }}"{% else %}Add a new skill to your profile.{% endif %}</p>
+  </div>
+  <a href="{% url 'dashboard:skill_list' %}" class="btn btn-ghost" style="font-size:0.78rem;">← Back to Skills</a>
+</div>
+
+<div class="dash-card">
+  <form method="post" class="dash-form">
+    {% csrf_token %}
+    <div class="dash-form-row">
+      <div class="dash-field"><label>Skill Name</label>{{ form.name }}{% if form.name.errors %}<ul class="errorlist">{% for e in form.name.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+      <div class="dash-field"><label>Category</label>{{ form.category }}</div>
+    </div>
+    <div class="dash-form-row">
+      <div class="dash-field">
+        <label>Proficiency Level (0–100)</label>
+        {{ form.level }}
+        <span class="help">{{ form.level.help_text }}</span>
+      </div>
+      <div class="dash-field"><label>Display Order</label>{{ form.order }}</div>
+    </div>
+    <div class="dash-field">
+      <label>Icon Class (optional)</label>{{ form.icon }}
+      <span class="help">{{ form.icon.help_text }} — Browse icons at <a href="https://fontawesome.com/icons" target="_blank" style="color:var(--accent-2);">fontawesome.com/icons</a></span>
+    </div>
+    <div class="dash-form-actions">
+      <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Skill</button>
+      <a href="{% url 'dashboard:skill_list' %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

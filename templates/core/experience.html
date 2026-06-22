@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% block title %}Experience — {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}
+{% block content %}
+
+<section class="section page-hero" id="top">
+  <div class="container">
+    <span class="page-eyebrow">04 / Experience</span>
+    <h1 class="page-title">Work History</h1>
+  </div>
+</section>
+
+<section class="section experience">
+  <div class="container">
+    <div class="timeline">
+      {% for exp in experiences %}
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <div>
+              <h3 class="timeline-role">{{ exp.role }}</h3>
+              <span class="timeline-company">{{ exp.company }}</span>
+            </div>
+            <div class="timeline-meta">
+              <span class="timeline-date">{{ exp.start_date|date:"M Y" }} — {% if exp.current %}Present{% else %}{{ exp.end_date|date:"M Y" }}{% endif %}</span>
+              {% if exp.location %}<span class="timeline-location">{{ exp.location }}</span>{% endif %}
+            </div>
+          </div>
+          <p class="timeline-desc">{{ exp.description }}</p>
+        </div>
+      </div>
+      {% empty %}
+      <p class="teaser-text">Experience details coming soon.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

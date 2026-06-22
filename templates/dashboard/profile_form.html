@@ -1,0 +1,54 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+<div class="dash-topbar">
+  <div>
+    <h1 class="dash-title">Edit Profile</h1>
+    <p class="dash-subtitle">Update your public profile information.</p>
+  </div>
+</div>
+
+<div class="dash-card">
+  <form method="post" enctype="multipart/form-data" class="dash-form" style="max-width:100%;">
+    {% csrf_token %}
+    <div class="dash-form-row">
+      <div class="dash-field"><label>Name</label>{{ form.name }}{% if form.name.errors %}<ul class="errorlist">{% for e in form.name.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+      <div class="dash-field"><label>Title / Role</label>{{ form.title }}{% if form.title.errors %}<ul class="errorlist">{% for e in form.title.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+    </div>
+
+    <div class="dash-field"><label>Bio</label>{{ form.bio }}{% if form.bio.errors %}<ul class="errorlist">{% for e in form.bio.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+
+    <div class="dash-form-row">
+      <div class="dash-field"><label>Email</label>{{ form.email }}</div>
+      <div class="dash-field"><label>Phone</label>{{ form.phone }}</div>
+    </div>
+    <div class="dash-field"><label>Location</label>{{ form.location }}</div>
+
+    <div class="dash-form-row">
+      <div class="dash-field"><label>GitHub URL</label>{{ form.github }}</div>
+      <div class="dash-field"><label>LinkedIn URL</label>{{ form.linkedin }}</div>
+    </div>
+    <div class="dash-field"><label>Twitter URL (optional)</label>{{ form.twitter }}</div>
+
+    <div class="dash-form-row">
+      <div class="dash-field">
+        <label>Resume / CV (PDF)</label>
+        {% if form.instance.resume %}
+          <div class="dash-file-current">Current: <a href="{{ form.instance.resume.url }}" target="_blank">{{ form.instance.resume.name }}</a></div>
+        {% endif %}
+        {{ form.resume }}
+      </div>
+    </div>
+
+    <div class="dash-form-row">
+      <div class="dash-field"><label>Years Experience</label>{{ form.years_experience }}</div>
+      <div class="dash-field"><label>Projects Count (stat)</label>{{ form.projects_count }}</div>
+    </div>
+
+    <div class="dash-form-actions">
+      <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Profile</button>
+      <a href="{% url 'dashboard:overview' %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

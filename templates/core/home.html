@@ -1,0 +1,144 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <canvas id="particleCanvas"></canvas>
+    <div class="grid-lines"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="tag-dot"></span>
+      Available for work
+    </div>
+    <h1 class="hero-name">
+      <span class="line-reveal">{% if profile %}{{ profile.name }}{% else %}Kaushal Kumar{% endif %}</span>
+    </h1>
+    <div class="hero-title-wrap">
+      <span class="hero-title-label">I'm a</span>
+      <div class="hero-title-rotate" id="titleRotate">
+        <span>{% if profile %}{{ profile.title }}{% else %}GenAI / Python Developer{% endif %}</span>
+        <span>ML Engineer</span>
+        <span>Django Backend Dev</span>
+      </div>
+    </div>
+    <p class="hero-desc">
+      {% if profile %}{{ profile.bio|truncatewords:32 }}{% else %}GenAI / Python Developer with hands-on experience in Machine Learning, AI-powered applications, backend development, and cloud deployment.{% endif %}
+    </p>
+    <div class="hero-cta">
+      <a href="{% url 'core:projects' %}" class="btn btn-primary">View Work <i class="fas fa-arrow-right"></i></a>
+      <a href="{% url 'core:contact' %}" class="btn btn-ghost">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num" data-target="1">0</span><span class="stat-suffix">+</span>
+        <span class="stat-label">Years Exp.</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" data-target="15">0</span><span class="stat-suffix">+</span>
+        <span class="stat-label">Projects</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" data-target="50">0</span><span class="stat-suffix">K+</span>
+        <span class="stat-label">Restaurants Served</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll Down</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- QUICK ABOUT TEASER -->
+<section class="section about-teaser">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">A Quick Intro</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="teaser-grid">
+      <p class="teaser-text">
+        {% if profile %}{{ profile.bio }}{% else %}GenAI / Python Developer with hands-on experience in Machine Learning, AI-powered applications, backend development, and cloud deployment.{% endif %}
+      </p>
+      <a href="{% url 'core:about' %}" class="btn btn-ghost">More About Me <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PROJECTS -->
+<section class="section projects" style="background:var(--bg);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Featured Work</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+      {% for project in featured_projects %}
+      <div class="project-card featured">
+        <div class="project-inner">
+          <div class="project-header">
+            <div class="project-icon"><i class="fas fa-cube"></i></div>
+            <div class="project-links">
+              {% if project.github_url %}<a href="{{ project.github_url }}" target="_blank" class="project-link"><i class="fab fa-github"></i></a>{% endif %}
+              {% if project.live_url %}<a href="{{ project.live_url }}" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i></a>{% endif %}
+            </div>
+          </div>
+          <h3 class="project-title">{{ project.title }}</h3>
+          {% if project.year %}<span class="project-year">{{ project.year }}</span>{% endif %}
+          <p class="project-desc">{{ project.short_desc|default:project.description|truncatewords:22 }}</p>
+          <div class="project-tech">
+            {% for tech in project.get_tech_list %}<span class="tech-tag">{{ tech }}</span>{% endfor %}
+          </div>
+        </div>
+        <div class="featured-badge">Featured</div>
+      </div>
+      {% endfor %}
+    </div>
+    <div style="text-align:center; margin-top:3rem;">
+      <a href="{% url 'core:projects' %}" class="btn btn-primary">View All Projects <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- RECENT EXPERIENCE -->
+<section class="section experience" style="background:var(--bg-2);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Recent Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+      {% for exp in experiences %}
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <div>
+              <h3 class="timeline-role">{{ exp.role }}</h3>
+              <span class="timeline-company">{{ exp.company }}</span>
+            </div>
+            <div class="timeline-meta">
+              <span class="timeline-date">{{ exp.start_date|date:"M Y" }} — {% if exp.current %}Present{% else %}{{ exp.end_date|date:"M Y" }}{% endif %}</span>
+              {% if exp.location %}<span class="timeline-location">{{ exp.location }}</span>{% endif %}
+            </div>
+          </div>
+          <p class="timeline-desc">{{ exp.description|truncatewords:30 }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div style="text-align:center; margin-top:1rem;">
+      <a href="{% url 'core:experience' %}" class="btn btn-ghost">Full Work History <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

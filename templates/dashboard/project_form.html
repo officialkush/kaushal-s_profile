@@ -1,0 +1,44 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}{% if instance %}Edit Project{% else %}Add Project{% endif %}{% endblock %}
+{% block content %}
+<div class="dash-topbar">
+  <div>
+    <h1 class="dash-title">{% if instance %}Edit Project{% else %}Add Project{% endif %}</h1>
+    <p class="dash-subtitle">{% if instance %}Updating "{{ instance.title }}"{% else %}Add a new project to your portfolio.{% endif %}</p>
+  </div>
+  <a href="{% url 'dashboard:project_list' %}" class="btn btn-ghost" style="font-size:0.78rem;">← Back to Projects</a>
+</div>
+<div class="dash-card">
+  <form method="post" class="dash-form" style="max-width:100%;">
+    {% csrf_token %}
+    <div class="dash-form-row">
+      <div class="dash-field"><label>Project Title</label>{{ form.title }}{% if form.title.errors %}<ul class="errorlist">{% for e in form.title.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+      <div class="dash-field"><label>Year</label>{{ form.year }}</div>
+    </div>
+    <div class="dash-field">
+      <label>Short Description (shown on cards)</label>{{ form.short_desc }}
+    </div>
+    <div class="dash-field">
+      <label>Full Description</label>{{ form.description }}
+    </div>
+    <div class="dash-field">
+      <label>Tech Stack</label>{{ form.tech_stack }}
+      <span class="help">{{ form.tech_stack.help_text }}</span>
+    </div>
+    <div class="dash-form-row">
+      <div class="dash-field"><label>GitHub URL</label>{{ form.github_url }}</div>
+      <div class="dash-field"><label>Live Demo URL</label>{{ form.live_url }}</div>
+    </div>
+    <div class="dash-form-row">
+      <div class="dash-field">
+        <div class="dash-checkbox-wrap">{{ form.featured }}<label for="{{ form.featured.id_for_label }}" style="font-size:0.83rem;color:var(--text);text-transform:none;letter-spacing:0;">Mark as Featured (shown on home page)</label></div>
+      </div>
+      <div class="dash-field"><label>Display Order</label>{{ form.order }}</div>
+    </div>
+    <div class="dash-form-actions">
+      <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Project</button>
+      <a href="{% url 'dashboard:project_list' %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

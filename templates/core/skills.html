@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% block title %}Skills — {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}
+{% block content %}
+
+<section class="section page-hero" id="top">
+  <div class="container">
+    <span class="page-eyebrow">02 / Skills</span>
+    <h1 class="page-title">Skills &amp; Tools</h1>
+  </div>
+</section>
+
+<section class="section skills">
+  <div class="container">
+    {% for category, cat_skills in skills_by_category.items %}
+    <div class="skills-group">
+      <h3 class="skills-category">{{ category }}</h3>
+      <div class="skills-grid">
+        {% for skill in cat_skills %}
+        <div class="skill-card" data-level="{{ skill.level }}">
+          <div class="skill-header">
+            <span class="skill-name">
+              {% if skill.icon %}<i class="{{ skill.icon }}"></i>{% endif %}
+              {{ skill.name }}
+            </span>
+            <span class="skill-pct">{{ skill.level }}%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-fill" style="--target: {{ skill.level }}%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% empty %}
+    <p class="teaser-text">Skills coming soon.</p>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

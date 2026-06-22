@@ -1,0 +1,34 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Experience{% endblock %}
+{% block content %}
+<div class="dash-topbar">
+  <div>
+    <h1 class="dash-title">Experience</h1>
+    <p class="dash-subtitle">Your work history.</p>
+  </div>
+  <a href="{% url 'dashboard:experience_add' %}" class="btn btn-primary" style="font-size:0.78rem;"><i class="fas fa-plus"></i> Add Experience</a>
+</div>
+<div class="dash-card">
+  {% if experiences %}
+  <table class="dash-table">
+    <thead><tr><th>Role</th><th>Company</th><th>Period</th><th>Location</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for exp in experiences %}
+      <tr>
+        <td><strong>{{ exp.role }}</strong></td>
+        <td>{{ exp.company }}</td>
+        <td class="row-muted">{{ exp.start_date|date:"M Y" }} — {% if exp.current %}Present{% else %}{{ exp.end_date|date:"M Y" }}{% endif %}</td>
+        <td class="row-muted">{{ exp.location|default:"—" }}</td>
+        <td><div class="dash-row-actions">
+          <a href="{% url 'dashboard:experience_edit' exp.pk %}" class="dash-icon-btn"><i class="fas fa-pen"></i></a>
+          <a href="{% url 'dashboard:experience_delete' exp.pk %}" class="dash-icon-btn danger"><i class="fas fa-trash"></i></a>
+        </div></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="dash-empty"><i class="fas fa-briefcase"></i>No experience yet. <a href="{% url 'dashboard:experience_add' %}" style="color:var(--accent-2);">Add one →</a></div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Dashboard{% endblock %} — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body class="dash-body">
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="dash-sidebar">
+    <div class="dash-logo"><span class="logo-bracket" style="color:var(--accent)">[</span>Admin<span class="logo-bracket" style="color:var(--accent)">]</span></div>
+    <span class="dash-logo-sub">Portfolio Dashboard</span>
+
+    <ul class="dash-nav">
+      <li><a href="{% url 'dashboard:overview' %}" class="{% if active == 'overview' %}active{% endif %}"><span class="nav-left"><i class="fas fa-gauge"></i> Overview</span></a></li>
+
+      <div class="dash-nav-section">Content</div>
+      <li><a href="{% url 'dashboard:profile_edit' %}" class="{% if active == 'profile' %}active{% endif %}"><span class="nav-left"><i class="fas fa-id-badge"></i> Profile</span></a></li>
+      <li><a href="{% url 'dashboard:skill_list' %}" class="{% if active == 'skills' %}active{% endif %}"><span class="nav-left"><i class="fas fa-sliders"></i> Skills</span></a></li>
+      <li><a href="{% url 'dashboard:project_list' %}" class="{% if active == 'projects' %}active{% endif %}"><span class="nav-left"><i class="fas fa-diagram-project"></i> Projects</span></a></li>
+      <li><a href="{% url 'dashboard:experience_list' %}" class="{% if active == 'experience' %}active{% endif %}"><span class="nav-left"><i class="fas fa-briefcase"></i> Experience</span></a></li>
+      <li><a href="{% url 'dashboard:education_list' %}" class="{% if active == 'education' %}active{% endif %}"><span class="nav-left"><i class="fas fa-graduation-cap"></i> Education</span></a></li>
+      <li><a href="{% url 'dashboard:certification_list' %}" class="{% if active == 'certifications' %}active{% endif %}"><span class="nav-left"><i class="fas fa-certificate"></i> Certifications</span></a></li>
+
+      <div class="dash-nav-section">Inbox</div>
+      <li>
+        <a href="{% url 'dashboard:message_list' %}" class="{% if active == 'messages' %}active{% endif %}">
+          <span class="nav-left"><i class="fas fa-envelope"></i> Messages</span>
+          {% if unread_count %}<span class="dash-badge">{{ unread_count }}</span>{% endif %}
+        </a>
+      </li>
+    </ul>
+
+    <div class="dash-sidebar-footer">
+      <a href="{% url 'core:home' %}" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> View Live Site</a>
+      <a href="/admin/" target="_blank"><i class="fas fa-screwdriver-wrench"></i> Django Admin</a>
+      <a href="{% url 'dashboard:logout' %}"><i class="fas fa-arrow-right-from-bracket"></i> Logout ({{ request.user.username }})</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="dash-main">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="dash-alert {% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Education{% endblock %}
+{% block content %}
+<div class="dash-topbar">
+  <div><h1 class="dash-title">Education</h1><p class="dash-subtitle">Academic background.</p></div>
+  <a href="{% url 'dashboard:education_add' %}" class="btn btn-primary" style="font-size:0.78rem;"><i class="fas fa-plus"></i> Add Education</a>
+</div>
+<div class="dash-card">
+  {% if education %}
+  <table class="dash-table">
+    <thead><tr><th>Degree</th><th>Institution</th><th>Years</th><th>Achievement</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for edu in education %}
+      <tr>
+        <td><strong>{{ edu.degree }}</strong></td>
+        <td>{{ edu.institution }}</td>
+        <td class="row-muted">{{ edu.start_year }} — {{ edu.end_year }}</td>
+        <td class="row-muted">{{ edu.detail|default:"—" }}</td>
+        <td><div class="dash-row-actions">
+          <a href="{% url 'dashboard:education_edit' edu.pk %}" class="dash-icon-btn"><i class="fas fa-pen"></i></a>
+          <a href="{% url 'dashboard:education_delete' edu.pk %}" class="dash-icon-btn danger"><i class="fas fa-trash"></i></a>
+        </div></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="dash-empty"><i class="fas fa-graduation-cap"></i>No education yet. <a href="{% url 'dashboard:education_add' %}" style="color:var(--accent-2);">Add one →</a></div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{% if profile %}{{ profile.name }} — Portfolio{% else %}Portfolio{% endif %}{% endblock %}</title>
+<meta name="description" content="{% if profile %}{{ profile.bio|truncatewords:25 }}{% endif %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% block extra_css %}{% endblock %}
+</head>
+<body>
+<div class="noise"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="{% url 'core:home' %}" class="nav-logo">
+    <span class="logo-bracket">[</span>
+    <span class="logo-text">{% if profile %}{{ profile.name|first }}{% else %}K{% endif %}</span>
+    <span class="logo-bracket">]</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="{% url 'core:home' %}" class="nav-link {% if active_page == 'home' %}active{% endif %}">Home</a></li>
+    <li><a href="{% url 'core:about' %}" class="nav-link {% if active_page == 'about' %}active{% endif %}">About</a></li>
+    <li><a href="{% url 'core:skills' %}" class="nav-link {% if active_page == 'skills' %}active{% endif %}">Skills</a></li>
+    <li><a href="{% url 'core:projects' %}" class="nav-link {% if active_page == 'projects' %}active{% endif %}">Projects</a></li>
+    <li><a href="{% url 'core:experience' %}" class="nav-link {% if active_page == 'experience' %}active{% endif %}">Experience</a></li>
+    <li><a href="{% url 'core:contact' %}" class="nav-link {% if active_page == 'contact' %}active{% endif %}">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="{% url 'core:home' %}" class="mobile-link">Home</a></li>
+    <li><a href="{% url 'core:about' %}" class="mobile-link">About</a></li>
+    <li><a href="{% url 'core:skills' %}" class="mobile-link">Skills</a></li>
+    <li><a href="{% url 'core:projects' %}" class="mobile-link">Projects</a></li>
+    <li><a href="{% url 'core:experience' %}" class="mobile-link">Experience</a></li>
+    <li><a href="{% url 'core:contact' %}" class="mobile-link">Contact</a></li>
+  </ul>
+</div>
+
+{% block content %}{% endblock %}
+{% include 'core/chatbot_widget.html' %}
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="logo-bracket">[</span>
+        <span class="logo-text">{% if profile %}{{ profile.name|first }}{% else %}K{% endif %}</span>
+        <span class="logo-bracket">]</span>
+      </div>
+      <p class="footer-copy">© 2026 {% if profile %}{{ profile.name }}{% else %}Kaushal Kumar{% endif %}. Built with Django & ♥</p>
+      <a href="#top" class="footer-back">Back to top <i class="fas fa-arrow-up"></i></a>
+    </div>
+  </div>
+</footer>
+<script src="{% static 'js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

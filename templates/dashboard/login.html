@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Portfolio Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body class="dash-body">
+<div class="login-wrap">
+  <div class="grid-lines"></div>
+  <div class="login-card">
+    <div class="login-logo"><span class="logo-bracket" style="color:var(--accent)">[</span>Admin<span class="logo-bracket" style="color:var(--accent)">]</span></div>
+    <div class="login-sub">Portfolio Dashboard</div>
+
+    {% if form.non_field_errors %}
+      <div class="login-error">{{ form.non_field_errors.0 }}</div>
+    {% endif %}
+    {% if messages %}
+      {% for message in messages %}<div class="login-error">{{ message }}</div>{% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_username">Username</label>
+        <input type="text" name="username" id="id_username" placeholder="admin" autofocus required>
+      </div>
+      <div class="form-group">
+        <label for="id_password">Password</label>
+        <input type="password" name="password" id="id_password" placeholder="••••••••" required>
+      </div>
+      <input type="hidden" name="next" value="{{ next }}">
+      <button type="submit" class="btn btn-primary btn-full" style="margin-top:0.6rem;">
+        <span>Sign In</span> <i class="fas fa-arrow-right-to-bracket"></i>
+      </button>
+    </form>
+    <a href="{% url 'core:home' %}" class="login-back"><i class="fas fa-arrow-left"></i> Back to portfolio site</a>
+  </div>
+</div>
+</body>
+</html>

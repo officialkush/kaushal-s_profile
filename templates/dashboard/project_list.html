@@ -1,0 +1,53 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Projects{% endblock %}
+{% block content %}
+<div class="dash-topbar">
+  <div>
+    <h1 class="dash-title">Projects</h1>
+    <p class="dash-subtitle">{{ projects|length }} project{{ projects|length|pluralize }} in your portfolio.</p>
+  </div>
+  <a href="{% url 'dashboard:project_add' %}" class="btn btn-primary" style="font-size:0.78rem;">
+    <i class="fas fa-plus"></i> Add Project
+  </a>
+</div>
+
+<div class="dash-card">
+  {% if projects %}
+  <table class="dash-table">
+    <thead>
+      <tr><th>Title</th><th>Year</th><th>Tech Stack</th><th>Featured</th><th>Links</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for proj in projects %}
+      <tr>
+        <td>
+          <strong>{{ proj.title }}</strong>
+          <div class="row-muted">{{ proj.short_desc|truncatechars:55 }}</div>
+        </td>
+        <td class="row-muted">{{ proj.year|default:"—" }}</td>
+        <td style="max-width:200px;">
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            {% for tech in proj.get_tech_list|slice:":3" %}<span class="dash-pill purple" style="font-size:0.6rem;">{{ tech }}</span>{% endfor %}
+            {% if proj.get_tech_list|length > 3 %}<span class="dash-pill gray">+{{ proj.get_tech_list|length|add:"-3" }}</span>{% endif %}
+          </div>
+        </td>
+        <td>{% if proj.featured %}<span class="dash-pill green">Featured</span>{% else %}<span class="dash-pill gray">No</span>{% endif %}</td>
+        <td>
+          {% if proj.github_url %}<a href="{{ proj.github_url }}" target="_blank" class="dash-icon-btn" title="GitHub"><i class="fab fa-github"></i></a>{% endif %}
+          {% if proj.live_url %}<a href="{{ proj.live_url }}" target="_blank" class="dash-icon-btn" title="Live"><i class="fas fa-external-link-alt"></i></a>{% endif %}
+        </td>
+        <td>
+          <div class="dash-row-actions">
+            <a href="{% url 'dashboard:project_edit' proj.pk %}" class="dash-icon-btn" title="Edit"><i class="fas fa-pen"></i></a>
+            <a href="{% url 'dashboard:project_delete' proj.pk %}" class="dash-icon-btn danger" title="Delete"><i class="fas fa-trash"></i></a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="dash-empty"><i class="fas fa-diagram-project"></i>No projects yet. <a href="{% url 'dashboard:project_add' %}" style="color:var(--accent-2);">Add one →</a></div>
+  {% endif %}
+</div>
+{% endblock %}

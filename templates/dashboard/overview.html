@@ -1,0 +1,133 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+
+<div class="dash-topbar">
+  <div>
+    <h1 class="dash-title">Welcome back, {{ request.user.get_short_name|default:request.user.username }} 👋</h1>
+    <p class="dash-subtitle">Here's what's happening with your portfolio.</p>
+  </div>
+  <a href="{% url 'core:home' %}" target="_blank" class="btn btn-ghost" style="font-size:0.78rem;">
+    <i class="fas fa-arrow-up-right-from-square"></i> Live Site
+  </a>
+</div>
+
+<!-- STAT CARDS -->
+<div class="dash-stats-grid">
+  <div class="dash-stat-card">
+    <div class="dash-stat-icon"><i class="fas fa-diagram-project"></i></div>
+    <div class="dash-stat-num">{{ projects_count }}</div>
+    <div class="dash-stat-label">Projects</div>
+  </div>
+  <div class="dash-stat-card">
+    <div class="dash-stat-icon"><i class="fas fa-sliders"></i></div>
+    <div class="dash-stat-num">{{ skills_count }}</div>
+    <div class="dash-stat-label">Skills</div>
+  </div>
+  <div class="dash-stat-card">
+    <div class="dash-stat-icon"><i class="fas fa-briefcase"></i></div>
+    <div class="dash-stat-num">{{ experience_count }}</div>
+    <div class="dash-stat-label">Experiences</div>
+  </div>
+  <div class="dash-stat-card">
+    <div class="dash-stat-icon"><i class="fas fa-graduation-cap"></i></div>
+    <div class="dash-stat-num">{{ cert_count }}</div>
+    <div class="dash-stat-label">Certifications</div>
+  </div>
+  <div class="dash-stat-card {% if unread_messages %}alert-card{% endif %}">
+    <div class="dash-stat-icon"><i class="fas fa-envelope"></i></div>
+    <div class="dash-stat-num">{{ unread_messages }}</div>
+    <div class="dash-stat-label">Unread Messages</div>
+  </div>
+  <div class="dash-stat-card">
+    <div class="dash-stat-icon"><i class="fas fa-inbox"></i></div>
+    <div class="dash-stat-num">{{ total_messages }}</div>
+    <div class="dash-stat-label">Total Messages</div>
+  </div>
+</div>
+
+<!-- PROFILE QUICK VIEW -->
+{% if profile %}
+<div class="dash-card" style="margin-bottom:1.8rem;">
+  <div class="dash-card-header">
+    <span class="dash-card-title">Your Profile</span>
+    <a href="{% url 'dashboard:profile_edit' %}" class="btn btn-ghost" style="font-size:0.75rem;padding:8px 16px;">
+      <i class="fas fa-pen"></i> Edit Profile
+    </a>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;">
+    <div>
+      <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Name</div>
+      <div style="font-weight:700;font-family:var(--font-display);">{{ profile.name }}</div>
+    </div>
+    <div>
+      <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Title</div>
+      <div>{{ profile.title }}</div>
+    </div>
+    <div>
+      <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Email</div>
+      <div>{{ profile.email }}</div>
+    </div>
+    <div>
+      <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Location</div>
+      <div>{{ profile.location }}</div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- RECENT MESSAGES -->
+<div class="dash-card">
+  <div class="dash-card-header">
+    <span class="dash-card-title">Recent Messages</span>
+    <a href="{% url 'dashboard:message_list' %}" style="font-size:0.78rem;color:var(--accent-2);text-decoration:none;">View all →</a>
+  </div>
+  {% if recent_messages %}
+  <table class="dash-table">
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>Subject</th>
+        <th>Received</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for msg in recent_messages %}
+      <tr>
+        <td>
+          <strong>{{ msg.name }}</strong>
+          <div class="row-muted">{{ msg.email }}</div>
+        </td>
+        <td>{{ msg.subject|truncatechars:40 }}</td>
+        <td class="row-muted">{{ msg.created_at|date:"M d, Y" }}</td>
+        <td>
+          {% if msg.read %}
+            <span class="dash-pill gray">Read</span>
+          {% else %}
+            <span class="dash-pill pink">Unread</span>
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'dashboard:message_detail' msg.pk %}" class="dash-icon-btn" title="Read"><i class="fas fa-eye"></i></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="dash-empty"><i class="fas fa-inbox"></i>No messages yet.</div>
+  {% endif %}
+</div>
+
+<!-- QUICK LINKS -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:0.5rem;">
+  {% for label, icon, url in quick_links %}
+  <a href="{{ url }}" style="display:flex;align-items:center;gap:12px;padding:1rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text-muted);text-decoration:none;font-size:0.82rem;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--border-bright)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">
+    <i class="{{ icon }}" style="color:var(--accent);width:18px;text-align:center;"></i> {{ label }}
+  </a>
+  {% endfor %}
+</div>
+
+{% endblock %}

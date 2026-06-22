@@ -1,0 +1,5 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "python manage.py migrate --settings=portfolio.settings_prod && python manage.py collectstatic --noinput --settings=portfolio.settings_prod && gunicorn portfolio.wsgi --log-file -"
