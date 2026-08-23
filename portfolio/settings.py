@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get(
     "enip_c-8)husx24&@w!&+p3g+f8jva(m7ph+gf@&msb@^90f6("
 )
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "kaushal121.pythonanywhere.com",
@@ -57,6 +57,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "dashboard.context_processors.unread_messages",
+                "core.context_processors.seo_data",
             ],
         },
     },

@@ -1,5 +1,11 @@
 {% extends 'core/base.html' %}
-{% block title %}Projects — {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}
+{% block title %}
+AI & Machine Learning Projects | {{ profile.name|default:"Kaushal Kumar" }}
+{% endblock %}
+
+{% block meta_description %}
+Explore AI, Machine Learning, Generative AI, Python and full-stack projects built by {{ profile.name|default:"Kaushal Kumar" }}, including project technologies, implementations and live demos.
+{% endblock %}
 {% block content %}
 
 <section class="section page-hero" id="top">

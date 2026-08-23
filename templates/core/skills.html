@@ -1,5 +1,11 @@
 {% extends 'core/base.html' %}
-{% block title %}Skills — {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}
+{% block title %}
+AI & Machine Learning Skills | {{ profile.name|default:"Kaushal Kumar" }}
+{% endblock %}
+
+{% block meta_description %}
+Explore {{ profile.name|default:"Kaushal Kumar" }}'s technical skills in Artificial Intelligence, Machine Learning, Generative AI, Python, Django, backend development and related technologies.
+{% endblock %}
 {% block content %}
 
 <section class="section page-hero" id="top">

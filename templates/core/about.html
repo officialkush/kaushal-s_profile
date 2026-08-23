@@ -1,5 +1,11 @@
 {% extends 'core/base.html' %}
-{% block title %}About — {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}
+{% block title %}
+About {{ profile.name|default:"Kaushal Kumar" }} | AI Engineer & GenAI Developer
+{% endblock %}
+
+{% block meta_description %}
+Learn about {{ profile.name|default:"Kaushal Kumar" }}, an AI Engineer and GenAI Developer working with Python, Machine Learning, Generative AI, Django and AI-powered applications.
+{% endblock %}
 {% block content %}
 
 <section class="section page-hero" id="top">

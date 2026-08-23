@@ -1,5 +1,11 @@
 {% extends 'core/base.html' %}
-{% block title %}Contact — {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}
+{% block title %}
+Contact {{ profile.name|default:"Kaushal Kumar" }} | AI Engineer
+{% endblock %}
+
+{% block meta_description %}
+Contact {{ profile.name|default:"Kaushal Kumar" }} for AI engineering, Generative AI, Machine Learning, Python and software development opportunities.
+{% endblock %}
 {% block content %}
 
 <section class="section page-hero" id="top">

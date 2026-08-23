@@ -2,15 +2,204 @@
 <html lang="en">
 <head>
 {% load static %}
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{% block title %}{% if profile %}{{ profile.name }} Kaushal Kumar | Junior AI Engineer & GenAI Developer{% else %}Kaushal Kumar | Junior AI Engineer & GenAI Developer{% endif %}{% endblock %}</title>
-<meta name="description" content="{% if profile %}{{ profile.bio|truncatewords:25 }}{% endif %}">
+
+<!-- ================================
+     SEO TITLE
+================================= -->
+
+<title>
+{% block title %}
+{% if profile %}
+{{ profile.name }} | {{ profile.title }}
+{% else %}
+Kaushal Kumar | AI Engineer & GenAI Developer
+{% endif %}
+{% endblock %}
+</title>
+
+
+<!-- ================================
+     SEO DESCRIPTION
+================================= -->
+
+<meta
+    name="description"
+    content="{% block meta_description %}{% if profile %}{{ profile.bio|truncatewords:30 }}{% else %}AI Engineer and GenAI Developer specializing in Python, Machine Learning, Generative AI, Django and AI-powered applications.{% endif %}{% endblock %}"
+>
+
+
+<!-- ================================
+     SEARCH ENGINE
+================================= -->
+
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow">
+
+
+<!-- ================================
+     CANONICAL URL
+================================= -->
+
+<link
+    rel="canonical"
+    href="https://kaushal121.pythonanywhere.com{{ request.path }}"
+>
+
+
+<!-- ================================
+     OPEN GRAPH
+================================= -->
+
+<meta
+    property="og:title"
+    content="{% block og_title %}{% if profile %}{{ profile.name }} | {{ profile.title }}{% else %}Kaushal Kumar | AI Engineer{% endif %}{% endblock %}"
+>
+
+<meta
+    property="og:description"
+    content="{% if profile %}{{ profile.bio|truncatewords:30 }}{% else %}AI Engineer and GenAI Developer specializing in Python, Machine Learning and Generative AI.{% endif %}"
+>
+
+<meta
+    property="og:type"
+    content="website"
+>
+
+<meta
+    property="og:url"
+    content="https://kaushal121.pythonanywhere.com{{ request.path }}"
+>
+
+<meta
+    property="og:site_name"
+    content="{% if profile %}{{ profile.name }}{% else %}Kaushal Kumar{% endif %}"
+>
+
+<meta
+    property="og:image"
+    content="https://kaushal121.pythonanywhere.com{% static 'images/og-image.png' %}"
+>
+
+
+<!-- ================================
+     TWITTER / X
+================================= -->
+
+<meta
+    name="twitter:card"
+    content="summary_large_image"
+>
+
+<meta
+    name="twitter:title"
+    content="{% if profile %}{{ profile.name }} | {{ profile.title }}{% else %}Kaushal Kumar | AI Engineer{% endif %}"
+>
+
+<meta
+    name="twitter:description"
+    content="{% if profile %}{{ profile.bio|truncatewords:30 }}{% endif %}"
+>
+
+<meta
+    name="twitter:image"
+    content="https://kaushal121.pythonanywhere.com{% static 'images/og-image.png' %}"
+>
+
+
+<!-- ================================
+     PERSON STRUCTURED DATA
+================================= -->
+
+{% if profile %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+
+    "name": "{{ profile.name|escapejs }}",
+
+    "jobTitle": "{{ profile.title|escapejs }}",
+
+    "description": "{{ profile.bio|truncatewords:50|escapejs }}",
+
+    "url": "https://kaushal121.pythonanywhere.com/",
+
+    {% if profile.email %}
+    "email": "{{ profile.email|escapejs }}",
+    {% endif %}
+
+    {% if profile.location %}
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "{{ profile.location|escapejs }}",
+        "addressCountry": "IN"
+    },
+    {% endif %}
+
+    "sameAs": [
+        {% if profile.github %}
+        "{{ profile.github|escapejs }}"
+        {% endif %}
+        {% if profile.linkedin %}
+        {% if profile.github %},{% endif %}
+        "{{ profile.linkedin|escapejs }}"
+        {% endif %}
+        {% if profile.twitter %}
+        {% if profile.github or profile.linkedin %},{% endif %}
+        "{{ profile.twitter|escapejs }}"
+        {% endif %}
+    ],
+
+    "knowsAbout": [
+        {% for skill in seo_skills %}
+        "{{ skill.name|escapejs }}"{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>
+{% endif %}
+
+
+<!-- ================================
+     WEBSITE STRUCTURED DATA
+================================= -->
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{% if profile %}{{ profile.name|escapejs }}{% else %}Kaushal Kumar{% endif %}",
+    "url": "https://kaushal121.pythonanywhere.com/"
+}
+</script>
+
+
+<!-- ================================
+     EXISTING ASSETS
+================================= -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap"
+>
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+>
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/style.css' %}"
+>
+
 {% block extra_css %}{% endblock %}
+
 </head>
 <body>
 <div class="noise"></div>
@@ -52,18 +241,244 @@
 {% include 'core/chatbot_widget.html' %}
 
 <!-- FOOTER -->
+<!-- ================================
+     PREMIUM FOOTER
+================================= -->
 <footer class="footer">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-logo">
-        <span class="logo-bracket">[</span>
-        <span class="logo-text">{% if profile %}{{ profile.name|first }}{% else %}K{% endif %}</span>
-        <span class="logo-bracket">]</span>
-      </div>
-      <p class="footer-copy">© 2026 {% if profile %}{{ profile.name }}{% else %}Kaushal Kumar{% endif %}. Built with Django & ♥</p>
-      <a href="#top" class="footer-back">Back to top <i class="fas fa-arrow-up"></i></a>
+
+    <div class="container">
+
+        <!-- FOOTER CTA -->
+        <div class="footer-cta">
+
+            <div class="footer-cta-content">
+
+                <span class="footer-eyebrow">
+                    <span class="footer-status-dot"></span>
+                    OPEN TO OPPORTUNITIES
+                </span>
+
+                <h2 class="footer-title">
+                    Let's build something
+                    <span>intelligent.</span>
+                </h2>
+
+                <p class="footer-cta-text">
+                    Have an idea, project, or opportunity?
+                    Let's connect and turn it into a real-world
+                    AI-powered solution.
+                </p>
+
+            </div>
+
+            <a href="{% url 'core:contact' %}" class="footer-cta-btn">
+                Start a Conversation
+                <i class="fas fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <!-- FOOTER MAIN -->
+        <div class="footer-main">
+
+            <!-- BRAND -->
+            <div class="footer-brand">
+
+                <a href="{% url 'core:home' %}" class="footer-logo">
+
+                    <span class="logo-bracket">[</span>
+
+                    <span class="logo-text">
+                        {% if profile %}
+                            {{ profile.name|first }}
+                        {% else %}
+                            K
+                        {% endif %}
+                    </span>
+
+                    <span class="logo-bracket">]</span>
+
+                </a>
+
+                <h3>
+                    {% if profile %}
+                        {{ profile.name }}
+                    {% else %}
+                        Kaushal Kumar
+                    {% endif %}
+                </h3>
+
+                <p>
+                    {% if profile %}
+                        {{ profile.title }}
+                    {% else %}
+                        AI Engineer & GenAI Developer
+                    {% endif %}
+                </p>
+
+                <span class="footer-location">
+                    <i class="fas fa-location-dot"></i>
+                    India
+                </span>
+
+            </div>
+
+
+            <!-- NAVIGATION -->
+            <div class="footer-column">
+
+                <span class="footer-label">
+                    NAVIGATION
+                </span>
+
+                <a href="{% url 'core:home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'core:about' %}">
+                    About
+                </a>
+
+                <a href="{% url 'core:skills' %}">
+                    Skills
+                </a>
+
+                <a href="{% url 'core:projects' %}">
+                    Projects
+                </a>
+
+                <a href="{% url 'core:experience' %}">
+                    Experience
+                </a>
+
+                <a href="{% url 'core:contact' %}">
+                    Contact
+                </a>
+
+            </div>
+
+
+            <!-- EXPERTISE -->
+            <div class="footer-column">
+
+                <span class="footer-label">
+                    EXPERTISE
+                </span>
+
+                <span>Artificial Intelligence</span>
+                <span>Generative AI</span>
+                <span>Machine Learning</span>
+                <span>Python</span>
+                <span>Django</span>
+                <span>Data & Automation</span>
+
+            </div>
+
+
+            <!-- CONNECT -->
+            <div class="footer-column">
+
+                <span class="footer-label">
+                    CONNECT
+                </span>
+
+                {% if profile and profile.email %}
+                <a href="mailto:{{ profile.email }}">
+                    <i class="fas fa-envelope"></i>
+                    Email
+                </a>
+                {% endif %}
+
+                {% if profile and profile.github %}
+                <a
+                    href="{{ profile.github }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+                {% endif %}
+
+                {% if profile and profile.linkedin %}
+                <a
+                    href="{{ profile.linkedin }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <i class="fab fa-linkedin"></i>
+                    LinkedIn
+                </a>
+                {% endif %}
+
+                {% if profile and profile.twitter %}
+                <a
+                    href="{{ profile.twitter }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <i class="fab fa-x-twitter"></i>
+                    X / Twitter
+                </a>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOTER BOTTOM -->
+        <div class="footer-bottom">
+
+            <div class="footer-copyright">
+
+                <span class="footer-copyright-symbol">
+                    ©
+                </span>
+
+                <span>
+                    {% now "Y" %}
+                    {% if profile %}
+                        {{ profile.name }}
+                    {% else %}
+                        Kaushal Kumar
+                    {% endif %}
+                </span>
+
+                <span class="footer-separator">/</span>
+
+                <span>
+                    All rights reserved.
+                </span>
+
+            </div>
+
+
+            <div class="footer-stack">
+
+                <span>AI</span>
+                <span>GENAI</span>
+                <span>ML</span>
+                <span>PYTHON</span>
+
+            </div>
+
+
+            <a href="#top" class="footer-back">
+
+                <span>
+                    BACK TO TOP
+                </span>
+
+                <i class="fas fa-arrow-up"></i>
+
+            </a>
+
+        </div>
+
     </div>
-  </div>
+
 </footer>
 <script src="{% static 'js/main.js' %}"></script>
 {% block extra_js %}{% endblock %}

@@ -10,4 +10,9 @@ urlpatterns = [
     path('projects/', views.projects, name='projects'),
     path('experience/', views.experience, name='experience'),
     path('contact/', views.contact, name='contact'),
+    path(
+    "robots.txt",
+    views.robots_txt,
+    name="robots"
+    ),
 ]

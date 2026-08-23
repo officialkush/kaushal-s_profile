@@ -1,5 +1,11 @@
 {% extends 'core/base.html' %}
-{% block title %}Experience — {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}
+{% block title %}
+AI Engineer Experience | {{ profile.name|default:"Kaushal Kumar" }}
+{% endblock %}
+
+{% block meta_description %}
+Explore the professional experience of {{ profile.name|default:"Kaushal Kumar" }} in Artificial Intelligence, Generative AI, Machine Learning, Python and software development.
+{% endblock %}
 {% block content %}
 
 <section class="section page-hero" id="top">

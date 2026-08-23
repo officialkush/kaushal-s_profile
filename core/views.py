@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import HttpResponse
 from django.http import JsonResponse
 from .models import Profile, Skill, Project, Experience, Education, Certification, Message
 
@@ -18,14 +19,30 @@ def grouped_skills():
 
 
 def home(request):
+    projects = Project.objects.all()
+
     context = {
         'profile': get_profile(),
         'skills_by_category': grouped_skills(),
-        'featured_projects': Project.objects.filter(featured=True),
+
+        'featured_projects': projects.filter(
+            featured=True
+        ),
+
         'experiences': Experience.objects.all()[:2],
+
+        # Dynamic statistics
+        'project_count': projects.count(),
+        'experience_count': Experience.objects.count(),
+
         'active_page': 'home',
     }
-    return render(request, 'core/home.html', context)
+
+    return render(
+        request,
+        'core/home.html',
+        context
+    )
 
 
 def about(request):
@@ -83,3 +100,19 @@ def contact(request):
         'active_page': 'contact',
     }
     return render(request, 'core/contact.html', context)
+
+
+def robots_txt(request):
+    content = """User-agent: *
+Allow: /
+
+Disallow: /dashboard/
+Disallow: /admin/
+
+Sitemap: https://kaushal121.pythonanywhere.com/sitemap.xml
+"""
+
+    return HttpResponse(
+        content,
+        content_type="text/plain"
+    )
