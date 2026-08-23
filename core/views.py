@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -71,6 +71,21 @@ def projects(request):
         'active_page': 'projects',
     }
     return render(request, 'core/projects.html', context)
+
+def project_detail(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+
+    context = {
+        'profile': get_profile(),
+        'project': project,
+        'active_page': 'projects',
+    }
+
+    return render(
+        request,
+        'core/project_detail.html',
+        context
+    )
 
 
 def experience(request):
