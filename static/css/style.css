@@ -22,7 +22,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
   background: var(--bg);
@@ -30,6 +30,8 @@ body {
   font-family: var(--font-mono);
   overflow-x: hidden;
   cursor: none;
+  width: 100%;
+  max-width: 100vw;
 }
 
 .noise {
@@ -140,7 +142,7 @@ body {
   mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
 }
 
-.hero-content { position: relative; z-index: 1; padding: 0 4rem; max-width: 900px; padding-top: 7rem; }
+.hero-content { position: relative; z-index: 1; padding: 0 4rem; max-width: 900px; padding-top: 7rem; width: 100%; }
 
 .hero-tag {
   display: inline-flex; align-items: center; gap: 8px;
@@ -156,9 +158,11 @@ body {
 
 .hero-name {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 8.5vw, 7.5rem);
+  font-size: clamp(2.2rem, 9vw, 7.5rem);
   font-weight: 800; line-height: 0.92; letter-spacing: -0.04em;
   margin-bottom: 1.5rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
   animation: fadeUp 0.8s 0.1s ease both;
 }
 .hero-name .line-reveal {
@@ -198,7 +202,7 @@ body {
 .hero-desc { color: var(--text-muted); font-size: 0.92rem; line-height: 1.8; max-width: 580px; margin-bottom: 2.5rem; animation: fadeUp 0.8s 0.3s ease both; }
 .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 4rem; animation: fadeUp 0.8s 0.4s ease both; }
 
-.hero-stats { display: flex; align-items: flex-end; gap: 2rem; animation: fadeUp 0.8s 0.5s ease both; }
+.hero-stats { display: flex; align-items: flex-end; gap: 2rem; animation: fadeUp 0.8s 0.5s ease both; flex-wrap: wrap; }
 .stat { text-align: left; position: relative; }
 .stat-num {
   font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; color: var(--accent); line-height: 1;
@@ -237,7 +241,7 @@ body {
 
 /* ================== SECTIONS ================== */
 .section { padding: 7rem 0; }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 4rem; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 4rem; width: 100%; }
 .section-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 4rem; }
 .section-num { font-size: 0.7rem; letter-spacing: 0.15em; color: var(--accent); opacity: 0.6; }
 .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.03em; color: var(--text); white-space: nowrap; }
@@ -1122,3 +1126,10 @@ body {
 .about-teaser { background: var(--bg-2); }
 .teaser-grid { display: flex; flex-direction: column; gap: 1.8rem; align-items: flex-start; max-width: 760px; }
 .teaser-text { color: var(--text-muted); font-size: 0.92rem; line-height: 1.9; }
+
+/* ================== MOBILE OVERFLOW SAFETY NET ================== */
+/* Prevents any child element from forcing horizontal scroll on small screens */
+@media (max-width: 480px) {
+  .hero-name { font-size: clamp(1.9rem, 10vw, 7.5rem); }
+}
+img, svg, video, canvas { max-width: 100%; }
