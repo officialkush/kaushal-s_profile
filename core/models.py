@@ -5,6 +5,7 @@ class Profile(models.Model):
     name = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
     bio = models.TextField()
+    photo = models.ImageField(upload_to='profile/', blank=True, null=True) 
     email = models.EmailField()
     phone = models.CharField(max_length=30, blank=True)
     location = models.CharField(max_length=100, blank=True)

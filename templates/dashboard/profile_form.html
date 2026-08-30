@@ -17,6 +17,21 @@
     </div>
 
     <div class="dash-field"><label>Bio</label>{{ form.bio }}{% if form.bio.errors %}<ul class="errorlist">{% for e in form.bio.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+    <div class="dash-field">
+  <label>Profile Photo</label>
+  <div class="dash-photo-row">
+    {% if form.instance.photo %}
+      <img src="{{ form.instance.photo.url }}" alt="Current photo" class="dash-photo-preview" id="photoPreview">
+    {% else %}
+      <div class="dash-photo-preview dash-photo-placeholder" id="photoPreview"><i class="fas fa-user"></i></div>
+    {% endif %}
+    <div class="dash-photo-controls">
+      {{ form.photo }}
+      {% if form.instance.photo %}<span class="dash-file-current">Current: {{ form.instance.photo.name }}</span>{% endif %}
+      {% if form.photo.errors %}<ul class="errorlist">{% for e in form.photo.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+    </div>
+  </div>
+</div>
 
     <div class="dash-form-row">
       <div class="dash-field"><label>Email</label>{{ form.email }}</div>
@@ -44,6 +59,13 @@
       <div class="dash-field"><label>Years Experience</label>{{ form.years_experience }}</div>
       <div class="dash-field"><label>Projects Count (stat)</label>{{ form.projects_count }}</div>
     </div>
+    <div class="dash-form-row">
+  <div class="dash-field"><label>Clients Count (stat)</label>{{ form.clients_count }}{% if form.clients_count.errors %}<ul class="errorlist">{% for e in form.clients_count.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+</div>
+
+{% if form.non_field_errors %}
+  <div class="dash-alert error">{{ form.non_field_errors }}</div>
+{% endif %}
 
     <div class="dash-form-actions">
       <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Profile</button>

@@ -17,7 +17,7 @@ def style_fields(form):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['name', 'title', 'bio', 'email', 'phone', 'location',
+        fields = ['name', 'title', 'bio','photo', 'email', 'phone', 'location',
                   'github', 'linkedin', 'twitter', 'resume',
                   'years_experience', 'projects_count', 'clients_count']
         widgets = {

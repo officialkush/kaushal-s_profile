@@ -10,16 +10,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<script src="{% static 'js/dashboard.js' %}" defer></script>
 </head>
 <body class="dash-body">
 <div class="dash-layout">
 
   <!-- SIDEBAR -->
   <aside class="dash-sidebar">
+  <div class="dash-sidebar-top">
     <div class="dash-logo"><span class="logo-bracket" style="color:var(--accent)">[</span>Admin<span class="logo-bracket" style="color:var(--accent)">]</span></div>
-    <span class="dash-logo-sub">Portfolio Dashboard</span>
+    <button type="button" class="dash-mobile-toggle" id="dashNavToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="dashNav">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+  <span class="dash-logo-sub">Portfolio Dashboard</span>
 
-    <ul class="dash-nav">
+  <ul class="dash-nav" id="dashNav">
       <li><a href="{% url 'dashboard:overview' %}" class="{% if active == 'overview' %}active{% endif %}"><span class="nav-left"><i class="fas fa-gauge"></i> Overview</span></a></li>
 
       <div class="dash-nav-section">Content</div>

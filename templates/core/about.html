@@ -21,7 +21,11 @@ Learn about {{ profile.name|default:"Kaushal Kumar" }}, an AI Engineer and GenAI
       <div class="about-visual">
         <div class="about-img-wrap">
           <div class="about-img-placeholder">
-            <div class="img-glitch"><i class="fas fa-user-astronaut"></i></div>
+            {% if profile and profile.photo %}
+              <img src="{{ profile.photo.url }}" alt="{{ profile.name }}" class="about-photo">
+            {% else %}
+              <div class="img-glitch"><i class="fas fa-user-astronaut"></i></div>
+            {% endif %}
             <div class="img-frame"></div>
             <div class="img-corner tl"></div>
             <div class="img-corner tr"></div>
